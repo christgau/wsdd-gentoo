@@ -37,7 +37,7 @@ src_install() {
 	doinitd etc/openrc/wsdd
 
 	# install systemd unit file with wsdd user and dependency on samba service if use flag is set
-	sed -i -e 's/=nodbody/=wsdd/' etc/systemd/wsdd.service
+	sed -i -e 's/=nobody/=wsdd/' etc/systemd/wsdd.service
 	if use samba; then
 		sed -i -e 's/;Wants=smb.service/Wants=samba.service/' etc/systemd/wsdd.service
 	fi
