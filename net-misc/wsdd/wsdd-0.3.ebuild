@@ -5,7 +5,7 @@ EAPI=7
 PYTHON_COMPAT=( python3_{6,7} )
 PYTHON_REQ_USE="xml(+)"
 
-inherit python-r1 user
+inherit python-r1 systemd user
 
 DESCRIPTION="A Web Service Discovery host daemon."
 HOMEPAGE="https://github.com/christgau/wsdd"
@@ -35,6 +35,13 @@ src_install() {
 	fi
 
 	doinitd etc/openrc/wsdd
+
+	# install systemd unit file with wsdd user and dependency on samba service if use flag is set
+	sed -i -e 's/=nodbody/=wsdd/' etc/systemd/wsdd.service
+	if use samba; then
+		sed -i -e 's/;Wants=smb.service/Wants=samba.service/' etc/systemd/wsdd.service
+	fi
+	systemd_dounit etc/systemd/wsdd.service
 
 	dodoc README.md
 }
