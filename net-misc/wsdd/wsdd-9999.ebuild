@@ -18,7 +18,7 @@ HOMEPAGE="https://github.com/christgau/wsdd"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~x86"
+KEYWORDS=""
 IUSE="samba"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
