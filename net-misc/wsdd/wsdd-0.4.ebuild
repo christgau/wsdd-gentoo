@@ -49,4 +49,5 @@ src_install() {
 
 pkg_postinst() {
 	enewuser wsdd -1 -1 /dev/null daemon
+	enewgroup wsdd
 }
