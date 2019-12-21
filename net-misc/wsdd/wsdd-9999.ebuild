@@ -11,7 +11,7 @@ EGIT_REPO_URI="https://github.com/christgau/${PN}.git"
 inherit git-r3
 #endif
 
-inherit python-r1 systemd user
+inherit python-r1 systemd
 
 DESCRIPTION="A Web Service Discovery host daemon."
 HOMEPAGE="https://github.com/christgau/wsdd"
@@ -30,9 +30,6 @@ BDEPEND=""
 src_install() {
 	python_foreach_impl python_newscript src/wsdd.py wsdd
 
-	# replace generic daemon:daemon with wsdd account
-	sed -i -e 's/daemon:daemon/wsdd:wsdd/g' etc/openrc/init.d/wsdd
-
 	# remove dependency on samba from init.d script if samba is not in use flags
 	if ! use samba ; then
 		sed -i -e '/need samba/d' etc/openrc/init.d/wsdd
@@ -42,7 +39,7 @@ src_install() {
 	doconfd etc/openrc/conf.d/wsdd
 
 	# install systemd unit file with wsdd user and dependency on samba service if use flag is set
-	sed -i -e 's/=nobody/=wsdd/' etc/systemd/wsdd.service
+	sed -i -e 's/=nobody/=daemon/' etc/systemd/wsdd.service
 	if use samba; then
 		sed -i -e 's/;Wants=smb.service/Wants=samba.service/' etc/systemd/wsdd.service
 	fi
@@ -50,9 +47,4 @@ src_install() {
 
 	dodoc README.md
 	doman man/wsdd.1
-}
-
-pkg_postinst() {
-	enewuser wsdd -1 -1 /dev/null daemon
-	enewgroup wsdd
 }
