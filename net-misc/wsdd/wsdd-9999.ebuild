@@ -22,9 +22,9 @@ KEYWORDS=""
 IUSE="samba"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-DEPEND="${PYTHON_DEPS}"
-# Samba is technically no requiredment of wsdd, but depend on it if the use flags is set.
-RDEPEND="${DEPEND} samba? ( net-fs/samba )"
+DEPEND=""
+# Samba is technically not a requirement of wsdd, but depend on it if the use flags is set.
+RDEPEND="${PYTHON_DEPS} samba? ( net-fs/samba )"
 BDEPEND=""
 
 src_install() {
