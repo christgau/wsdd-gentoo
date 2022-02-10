@@ -1,4 +1,4 @@
-# Copyright 2019-2021 Gentoo Authors
+# Copyright 2019-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -41,7 +41,7 @@ src_install() {
 	# install systemd unit file with wsdd user and dependency on samba service if use flag is set
 	sed -i -e 's/=nobody/=daemon/' etc/systemd/wsdd.service
 	if use samba; then
-		sed -i -e 's/;Wants=smb.service/Wants=samba.service/' etc/systemd/wsdd.service
+		sed -i -e 's/;BindsTo=/BindsTo=/' etc/systemd/wsdd.service
 	fi
 	systemd_dounit etc/systemd/wsdd.service
 
